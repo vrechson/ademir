@@ -30,7 +30,7 @@ func (AdemirBot *AdemirBot) Navigate(w http.ResponseWriter, req *http.Request) {
 			fmt.Fprintf(w, "ParseForm() err: %v", err)
 			return
 		}
-		url := req.FormValue("url")
+		url := req.FormValue("adress")
 		AdemirBot.browser.AddQueue(url)
 
 	}
@@ -51,7 +51,7 @@ func (AdemirBot *AdemirBot) Start() {
 	} else {
 		go AdemirBot.browser.WorkController(AdemirBot.conf)
 		http.HandleFunc("/ademir/dashboard", AdemirBot.Navigate)
-		http.ListenAndServe(":80", nil)
+		http.ListenAndServe(":"+AdemirBot.conf.Port, nil)
 
 	}
 }
