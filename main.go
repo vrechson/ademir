@@ -3,16 +3,22 @@ package main
 import (
 	"log"
 
-	"github.com/whoismath/ademir/app"
-	"github.com/whoismath/ademir/config"
+	_ "github.com/joho/godotenv/autoload"
+	app "github.com/whoismath/ademir/app"
+	config "github.com/whoismath/ademir/config"
 )
 
 func main() {
+
 	c, err := config.Setup()
+
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	a := app.CreateApp(c)
+	t := make(chan string)
+	defer close(t)
+
+	a := app.CreateApp(c, t)
 	a.Start()
 }

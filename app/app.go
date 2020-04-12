@@ -2,21 +2,56 @@ package app
 
 import (
 	"fmt"
+	"log"
+	"net/http"
+	"os"
 
-	config "github.com/whoismath/ademir/config"
+	"github.com/whoismath/ademir/config"
+	"github.com/whoismath/ademir/worker"
 )
 
 // AdemirBot is the principal bot structure
 type AdemirBot struct {
-	conf *config.Config
+	conf    *config.Config
+	browser *worker.Handler
 }
 
 // CreateApp initiates AdemirBot
-func CreateApp(conf *config.Config) *AdemirBot {
-	return &AdemirBot{conf}
+func CreateApp(c *config.Config, t chan string) *AdemirBot {
+	b := worker.Setup(t)
+
+	return &AdemirBot{c, b}
+}
+
+// Navigate function handles http post
+func (AdemirBot *AdemirBot) Navigate(w http.ResponseWriter, req *http.Request) {
+	if req.Method == "POST" {
+		if err := req.ParseForm(); err != nil {
+			fmt.Fprintf(w, "ParseForm() err: %v", err)
+			return
+		}
+		url := req.FormValue("url")
+		AdemirBot.browser.AddQueue(url)
+
+	}
+
 }
 
 // Start inializes Application
 func (AdemirBot *AdemirBot) Start() {
-	fmt.Println("eae")
+	if AdemirBot.conf.UseWebhook == false {
+		if len(os.Args) < 2 {
+			log.Fatal("Usage: ./ademir url")
+			os.Exit(0)
+		}
+
+		AdemirBot.browser.Navigate(os.Args[1], AdemirBot.conf)
+		os.Exit(0)
+
+	} else {
+		go AdemirBot.browser.WorkController(AdemirBot.conf)
+		http.HandleFunc("/ademir/dashboard", AdemirBot.Navigate)
+		http.ListenAndServe(":80", nil)
+
+	}
 }
