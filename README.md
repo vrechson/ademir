@@ -23,19 +23,27 @@ DEBUG=true
 # Running it
 `docker build -t ademir .`
 
-`docker run -p 6666:80 -it ademir`
-
-environment will be running at http://localhost:6666
+`docker run -it ademir`
 
 # TODO
 - [ ] task 1: Improve cookies management
 - [ ] task 2: Code Refactoring
+- [ ] task 3: Cooldown and token access
+- [ ] task 4: SSRF Prevention
 
 ## Improve Cookies management
 To navigate to the hooked page with cookies defined, currently, the bot first has to open the hostname page, set cookies and then navigate into the hooked page with cookies already set
 
 At the end of this task, it won't be necessary to navigate any page before set cookies
 ## Code Refactoring
-This version is still with many problems, so it's essential to refactor its code and turn it mo clear and concise.
+This version is still with many problems, so it's essential to refactor its code and turn it mo clear and concise
 
-At the end of this task, the code must be more readable.
+At the end of this task, the code must be more readable
+## Cooldown and Token access
+Adding cooldown and token restrictions will make this bot more safe from attacks even though it should never be exposed to internet
+
+At the end of this task, the bot will prevent DoS and other issues
+## SSRF Prevention
+Another important thing to improve it's security is preventing SSRF
+
+At the end of this task, the bot will be saffer
