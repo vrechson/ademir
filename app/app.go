@@ -30,7 +30,7 @@ func (AdemirBot *AdemirBot) Navigate(w http.ResponseWriter, req *http.Request) {
 			fmt.Fprintf(w, "ParseForm() err: %v", err)
 			return
 		}
-		url := req.FormValue("adress")
+		url := req.FormValue("address")
 		AdemirBot.browser.AddQueue(url)
 
 	}
