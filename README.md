@@ -1,14 +1,14 @@
 # Ademir
 Ademir is a bot designed to simulate administration behavior in CTF XSS challenges.
 
-It only opens pages using a chrome web driver and renders any javascript in it.
+It opens webpages using a chrome web driver and renders any javascript in it.
 
-There are two modes of operation:
+There are two operation modes:
 
 * env `USEWEBHOOK=true`
-    In this mode of operation, Ademir setup's a webhook at `http://localhost/ademir/dashboard` where it navigate into each url it receives via `address POST parâmeter`.
+    In this operation mode, Ademir setup's a webhook at `http://localhost/ademir/dashboard` where it navigate into each url it receives via `address POST parâmeter`.
 * env `USEWEBHOOK=false`
-    In this mode, just run it as `./ademir url`, it will open your url and end its execution.
+    In this operation mode, just run it as `./ademir url`, it will open your url and end its execution.
 
 `.env` example:
 
